@@ -1,0 +1,7 @@
+{
+    "feeds": [
+      { "id": 1, "name": "pplware", "url": "https://pplware.sapo.pt/feed/" },
+      { "id": 2, "name": "ign", "url": "http://feeds.feedburner.com/ign/all" },
+      { "id": 3, "name": "cidadehoje", "url":  "https://cidadehoje.sapo.pt/feed/"  }
+    ]
+ }
