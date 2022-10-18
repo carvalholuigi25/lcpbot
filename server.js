@@ -49,7 +49,9 @@ server.get("/api/feeds", (req, res) => {
     if(limit != -1 && page != -1) {
       obj = obj.feeds.slice((page - 1) * limit, page * limit);
      } else {
-      obj = obj.feeds.slice(0, limit);
+      if(limit != -1) {
+        obj = obj.feeds.slice(0, limit);
+      }
      }
 
     res.jsonp(obj);
