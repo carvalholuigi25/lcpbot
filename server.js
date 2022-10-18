@@ -21,11 +21,40 @@ server.use((req, res, next) => {
   next()
 })
 
-server.get("/feeds", (req, res) => {
-  res.jsonp(require(path.join(__dirname + '/feeds.json')));
+server.get("/api/feeds", (req, res) => {
+  var obj;
+  res.setHeader('Content-Type', 'application/json; charset=utf8');
+  
+  fs.readFile(path.join(__dirname + '/feeds.json'), 'utf8', function (err, data) {
+    if (err) throw err;
+
+    if(data != null) {
+      obj = JSON.parse(data);
+
+      var id = req.query.id ? req.query.id : -1;
+      var name = req.query.name ? req.query.name : "";
+      var url = req.query.url ? req.query.url : "";
+  
+      if(id != -1) {
+        obj = obj.feeds.filter(x => x.id == id);
+      }
+  
+      if(name != "") {
+        obj = obj.feeds.filter(x => x.name == name);
+      }
+  
+      if(url != "") {
+        obj = obj.feeds.filter(x => x.url == url);
+      }
+  
+      res.jsonp(obj);
+    } else {
+      res.jsonp({msg: "Unable to fetch feeds data!"});
+    }
+  });
 })
 
-server.get("/news", (req, res) => {
+server.get("/api/news", (req, res) => {
   var links_rss = require(path.join(__dirname + '/feeds.json'));
   var id = req.query.id ? req.query.id : 1;
   var title = req.query.title ? req.query.title : "";

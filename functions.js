@@ -5,7 +5,7 @@ async function getData(url = 'http://localhost:3001/api/playlist', mimeTypeFrm =
 
     const response = await fetch(url, {
       method: 'GET', 
-      mode: 'no-cors',
+      mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
       headers: getheaders,
