@@ -2,6 +2,23 @@
     "feeds": [
       { "id": 1, "name": "pplware", "url": "https://pplware.sapo.pt/feed/" },
       { "id": 2, "name": "ign", "url": "http://feeds.feedburner.com/ign/all" },
-      { "id": 3, "name": "cidadehoje", "url":  "https://cidadehoje.sapo.pt/feed/"  }
+      { "id": 3, "name": "cidadehoje", "url":  "https://cidadehoje.sapo.pt/feed/"  },
+      { "id": 4, "name": "eurogamernet", "url": "https://www.eurogamer.net/feed" },
+      { "id": 5, "name": "kotaku", "url": "https://kotaku.com/rss" },
+      { "id": 6, "name": "polygon", "url": "https://www.polygon.com/rss/index.xml" },
+      { "id": 7, "name": "exameinformatica", "url": "https://visao.sapo.pt/exameinformatica/feed/" },
+      { "id": 8, "name": "pcgamer", "url": "https://www.pcgamer.com/uk/rss/" },
+      { "id": 9, "name": "hipsterspontotech", "url": "https://www.hipsters.tech/feed/" },
+      { "id": 10, "name": "windows11forum", "url": "https://www.elevenforum.com/questions/-/index.rss" },
+      { "id": 11, "name": "proximonivel", "url": "https://proximonivel.pt/feed/" },
+      { "id": 12, "name": "gtanetcom", "url": "https://gtanet.com/feed/" },
+      { "id": 13, "name": "ptanime", "url": "https://ptanime.com/feed/" },
+      { "id": 14, "name": "ignportugal", "url": "https://pt.ign.com/feed.xml" },
+      { "id": 15, "name": "eurogamerportugal", "url": "https://www.eurogamer.pt/feed" },
+      { "id": 16, "name": "sicnoticias", "url": "http://feeds.feedburner.com/sicnoticias-ultimas" },
+      { "id": 17, "name": "adrenaline", "url": "https://adrenaline.com.br/rss" },
+      { "id": 18, "name": "rtpnoticias", "url": "https://www.rtp.pt/noticias/rss" },
+      { "id": 19, "name": "tecmundo", "url": "https://rss.tecmundo.com.br/feed" },
+      { "id": 20, "name": "windowsblogofficial", "url": "https://blogs.windows.com/feed/" }
     ]
  }
