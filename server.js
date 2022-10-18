@@ -31,6 +31,8 @@ server.get("/api/feeds", (req, res) => {
     var id = req.query.id ? req.query.id : -1;
     var name = req.query.name ? req.query.name : "";
     var url = req.query.url ? req.query.url : "";
+    var limit = req.query._limit ? req.query._limit : -1;
+    var page = req.query._page ? req.query._page : 1;
 
     if(id != -1) {
       obj = obj.feeds.filter(x => x.id == id);
@@ -43,6 +45,12 @@ server.get("/api/feeds", (req, res) => {
     if(url != "") {
       obj = obj.feeds.filter(x => x.url == url);
     }
+
+    if(limit != -1 && page != -1) {
+      obj = obj.feeds.slice((page - 1) * limit, page * limit);
+     } else {
+      obj = obj.feeds.slice(0, limit);
+     }
 
     res.jsonp(obj);
   });
