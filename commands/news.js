@@ -34,7 +34,7 @@ module.exports = {
     const id = interaction.options.getInteger('id') ? interaction.options.getInteger('id') : -1;
     const title = interaction.options.getString('title') ? interaction.options.getString('title') : "";
     const limit = interaction.options.getInteger('limit') ? interaction.options.getInteger('limit') : 5;
-    const page = interaction.options.getInteger('page') ? interaction.options.getInteger('page') : -1;
+    const page = interaction.options.getInteger('page') ? interaction.options.getInteger('page') : 1;
     var srchres = ""; var items  = ""; var urlq = ""; 
     var msg = "";
 
