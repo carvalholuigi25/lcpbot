@@ -22,35 +22,29 @@ server.use((req, res, next) => {
 })
 
 server.get("/api/feeds", (req, res) => {
-  var obj;
   res.setHeader('Content-Type', 'application/json; charset=utf8');
+  var obj;
   
   fs.readFile(path.join(__dirname + '/feeds.json'), 'utf8', function (err, data) {
     if (err) throw err;
+    obj = JSON.parse(data);
+    var id = req.query.id ? req.query.id : -1;
+    var name = req.query.name ? req.query.name : "";
+    var url = req.query.url ? req.query.url : "";
 
-    if(data != null) {
-      obj = JSON.parse(data);
-
-      var id = req.query.id ? req.query.id : -1;
-      var name = req.query.name ? req.query.name : "";
-      var url = req.query.url ? req.query.url : "";
-  
-      if(id != -1) {
-        obj = obj.feeds.filter(x => x.id == id);
-      }
-  
-      if(name != "") {
-        obj = obj.feeds.filter(x => x.name == name);
-      }
-  
-      if(url != "") {
-        obj = obj.feeds.filter(x => x.url == url);
-      }
-  
-      res.jsonp(obj);
-    } else {
-      res.jsonp({msg: "Unable to fetch feeds data!"});
+    if(id != -1) {
+      obj = obj.feeds.filter(x => x.id == id);
     }
+
+    if(name != "") {
+      obj = obj.feeds.filter(x => x.name == name);
+    }
+
+    if(url != "") {
+      obj = obj.feeds.filter(x => x.url == url);
+    }
+
+    res.jsonp(obj);
   });
 })
 
@@ -81,7 +75,9 @@ server.get("/api/news", (req, res) => {
 });
 
 server.use(jsonServer.rewriter({
-  '/api/*': '/$1'
+  '/api/*': '/$1',
+  '/api/feeds\\?id=:id': '/feeds/:id',
+  '/api/news\\?id=:id': '/news/:id'
 }))
 
 server.use(router)
