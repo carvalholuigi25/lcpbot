@@ -1,0 +1,25 @@
+{
+    "radio": [
+        {
+            "id": 1,
+            "freq": "103.8",
+            "title": "M80",
+            "src": "http://mcrscast.mcr.iol.pt/m80",
+            "howl": null
+        },
+        {
+            "id": 2,
+            "freq": "99.2",
+            "title": "Radio Comercial",
+            "src": "http://mcrscast1.mcr.iol.pt/comercial.mp3",
+            "howl": null
+        },
+        {
+            "id": 3,
+            "freq": "93.2",
+            "title": "RFM",
+            "src": "https://20423.live.streamtheworld.com/RFMAAC.aac?dist=triton-widget&tdsdk=js-2.9&swm=false&pname=tdwidgets&pversion=2.9&banners=none&burst-time=15",
+            "howl": null
+        }
+    ]
+}
