@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const path = require('path')
 const nfetch = require('node-fetch')
 const xml2js = require('xml2js')
@@ -12,6 +13,7 @@ const router = jsonServer.router(path.join(__dirname, 'db.json'))
 const middlewares = jsonServer.defaults()
 const port = 3001
 
+server.use(cors())
 server.use(middlewares)
 
 server.use(jsonServer.bodyParser)

@@ -18,6 +18,7 @@
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
     "concurrently": "^7.4.0",
+    "cors": "^2.8.5",
     "discord-player": "^5.3.2",
     "discord-rpc": "^4.0.1",
     "discord.js": "^14.6.0",
