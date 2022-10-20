@@ -24,7 +24,26 @@ server.use((req, res, next) => {
 
 server.get("/api/time", (req, res) => {
   res.setHeader('Content-Type', 'application/json; charset=utf8');
-  res.jsonp({ time: new Date().toISOString(), mytimezone: new Date().toUTCString() })
+  var id = req.query.id ? req.query.id : -1;
+  var idv = 0;
+  idv++;
+
+  var obj = { 
+    time: [ 
+      { 
+        id: idv, 
+        time: new Date().toUTCString(), 
+        timefrm: new Date().toISOString(),
+        mytimezone: new Date().toLocaleDateString('pt-PT', { day: '2-digit', timeZoneName: 'long' }).slice(4) 
+      } 
+    ] 
+  };
+
+  if(id != -1) {
+    obj = obj.time.filter(x => x.id == id);
+  }
+
+  res.jsonp(obj);
 })
 
 server.get("/api/radio", (req, res) => {
@@ -64,6 +83,13 @@ server.get("/api/weather", (req, res) => {
   
   funcs.getData(apiurl).then(x => {
     res.jsonp(x);
+
+    if(fs.existsSync(path.join(__dirname + '/data/weather.json'))) {
+      fs.writeFile(path.join(__dirname + '/data/weather.json'), JSON.stringify(x, null, 2), 'utf8', function(err, data) {
+        if(err) throw err;
+        console.log("written contents to file /data/weather.json!");
+      });
+    }
   }).catch(err => console.log(err));
 });
 

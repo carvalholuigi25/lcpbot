@@ -2,45 +2,34 @@ const {ApplicationCommandOptionType } = require('discord.js');
 const funcs = require('../functions.js');
 
 module.exports = {
-  name: 'radio',
-  description: 'Get radio list and plays it',
+  name: 'time',
+  description: 'Get the current time list',
   options: [
     {
         name: 'id',
         type: ApplicationCommandOptionType.Integer,
         description: "It will fetch the list by id param",
         required: false
-    },
-    {
-        name: 'title',
-        type: ApplicationCommandOptionType.String,
-        description: "It will fetch the list by title param",
-        required: false
     }
   ],
   execute(interaction, client) {
     const id = interaction.options.getInteger('id') ? interaction.options.getInteger('id') : -1;
-    const title = interaction.options.getString('title') ? interaction.options.getString('title') : "";
     var urlq = ""; var msg = "";  var myres = "";
 
     if(id != -1) {
         urlq = !urlq.includes("?") ? `?id=${id}` : `&id=${id}` ;
     }
 
-    if(title != "") {
-        urlq += !urlq.includes("?") ? `?title=${title}` : `&title=${title}`;
-    }
-
-    funcs.getData(`http://localhost:3001/api/radio${urlq}`).then(x => {
-        myres = JSON.parse(JSON.stringify(x)).radio != null ? JSON.parse(JSON.stringify(x)).radio : JSON.parse(JSON.stringify(x));
+    funcs.getData(`http://localhost:3001/api/time${urlq}`).then(x => {
+        myres = JSON.parse(JSON.stringify(x)).time != null ? JSON.parse(JSON.stringify(x)).time : JSON.parse(JSON.stringify(x));
         // console.log(JSON.stringify(myres));
 
         if(myres != null && myres.length > 0) {
             for(var i = 0; i < myres.length; i++) {
-                msg += `Id: ${myres[i].id} / Freq: ${myres[i].freq} / Title: ${myres[i].title} / Url: ${myres[i].src} \n`;
+                msg += `Id: ${myres[i].id} / Time: ${myres[i].time} / Formated Time: ${myres[i].timefrm} / My Timezone: ${myres[i].mytimezone} \n`;
             }
         } else {
-            msg = 'Error: 0 radio items data!';
+            msg = 'Error: 0 time items data!';
         }
 
         interaction.reply({
