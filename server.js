@@ -34,7 +34,8 @@ server.get("/api/time", (req, res) => {
         id: idv, 
         time: new Date().toUTCString(), 
         timefrm: new Date().toISOString(),
-        mytimezone: new Date().toLocaleDateString('pt-PT', { day: '2-digit', timeZoneName: 'long' }).slice(4) 
+        mytimezone: new Date().toLocaleDateString('pt-PT', { day: '2-digit', timeZoneName: 'long' }).slice(4),
+        mytimezonename: Intl.DateTimeFormat().resolvedOptions().timeZone 
       } 
     ] 
   };

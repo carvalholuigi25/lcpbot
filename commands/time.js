@@ -26,7 +26,12 @@ module.exports = {
 
         if(myres != null && myres.length > 0) {
             for(var i = 0; i < myres.length; i++) {
-                msg += `Id: ${myres[i].id} / Time: ${myres[i].time} / Formated Time: ${myres[i].timefrm} / My Timezone: ${myres[i].mytimezone} \n`;
+                msg += `
+                \nId: ${myres[i].id}
+                \nTime: ${myres[i].time} 
+                \nFormated Time: ${myres[i].timefrm} 
+                \nMy Timezone: ${myres[i].mytimezone} 
+                \nMy Timezone Name: ${myres[i].mytimezonename}`;
             }
         } else {
             msg = 'Error: 0 time items data!';
