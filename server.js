@@ -15,14 +15,16 @@ const port = 3001
 
 server.use(cors())
 server.use(middlewares)
-
 server.use(jsonServer.bodyParser)
+
 server.use((req, res, next) => {
   if (req.method === 'POST') {
     req.body.createdAt = Date.now()
   }
   next()
 })
+
+server.use("/howler",  express.static(path.join(__dirname, "/node_modules/howler/dist")) );
 
 server.get("/api/time", (req, res) => {
   res.setHeader('Content-Type', 'application/json; charset=utf8');

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Radio</title>
+</head>
+<body>
+    <h1>Test radio</h1>
+
+    <script src="/node_modules/howler/dist/howler.min.js"></script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            function loadRadio(play = false) {
+                var sound = new Howl({
+                    // src: "http://mcrscast1.mcr.iol.pt/comercial.mp3",
+                    src: ['http://mcrscast1.mcr.iol.pt/comercial.mp3'],
+                    autoplay: false,
+                    loop: true,
+                    html5: true,
+                    format: ["mp3", "mpeg", "opus", "ogg", "oga", "wav", "aac", "caf", "m4a", "m4b", "mp4", "weba", "webm", "dolby", "flac"],
+                    volume: 1,
+                    xhr: {
+                        method: 'GET',
+                        headers: {
+                            "Access-Control-Allow-Origin": "*"
+                        },
+                        withCredentials: false
+                    },
+                    onload: function(id) {
+                        console.log(`Radio: Loaded (Id: ${id})!`);
+                    },
+                    onloaderror: function(id, err) {
+                        console.log(`Radio: Unable to load music (Id: ${id})! Reason: ${err}`);
+                    },
+                    onplay: function(id) {
+                        console.log(`Radio: Playing (Id: ${id})!`);
+                    },
+                    onplayerror: function(id, err) {
+                        console.log(`Radio: Unable to play music (Id: ${id})! Reason: ${err}`);
+                    },
+                    onmute: function(id) {
+                        console.log(`Radio: Muted (Id: ${id})!`);
+                    },
+                    onpause: function(id) {
+                        console.log(`Radio: Paused (Id: ${id})!`);
+                    },
+                    onstop: function(id) {
+                        console.log(`Radio: Stopped (Id: ${id})!`);
+                    },
+                    onend: function(id) {
+                        console.log(`Radio: Finished (Id: ${id})!`);
+                    }        
+                });
+
+                sound.play();
+            }
+
+            loadRadio(true);
+        });
+    </script>
+</body>
+</html>
