@@ -1,0 +1,17 @@
+[
+    {
+        "id": 0,
+        "title": "M80",
+        "url": "http://mcrscast.mcr.iol.pt/m80"
+    },
+    {
+        "id": 1,
+        "title": "Radio Comercial",
+        "url": "http://mcrscast1.mcr.iol.pt/comercial.mp3"
+    },
+    {
+        "id": 2,
+        "title": "RFM",
+        "url": "https://20423.live.streamtheworld.com/RFMAAC.aac?dist=triton-widget&tdsdk=js-2.9&swm=false&pname=tdwidgets&pversion=2.9&banners=none&burst-time=15"
+    }
+]

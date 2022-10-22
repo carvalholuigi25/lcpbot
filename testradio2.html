@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Radio v2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+   <style>
+        * {
+            padding: 0;
+            margin: 0;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-all;
+            box-sizing: border-box;
+        }
+        html, body { min-height: 100vh; scroll-behavior: smooth; }
+        body {
+            background: linear-gradient(720deg, purple, orange);
+            color: black;
+            padding: 15px;
+            margin: 0;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-all;
+            box-sizing: border-box;
+        }
+        p { margin: 0; }
+        dl, ol, ul { margin: 0; padding: 0; }
+        .radio, #radio {
+            display: block;
+            position: relative;
+            margin: 15px auto;
+            padding: 15px;
+            border-radius: 15px;
+        }
+        .radio .radiolist, #radio .radiolist {
+            display: block;
+            border: 0;
+            border-collapse: collapse;
+            color: black;
+            padding: 0px;
+            margin: 15px auto;
+            border-radius: 15px;
+        }
+        .radio .radiolist li, #radio .radiolist li {
+            border: 1px solid;
+            border-radius: 25px;
+            list-style-position: inside;
+            padding: 15px;
+            background-color: white;
+            color: black;
+        }
+        .radio .radiolist li a {
+            text-decoration: none;
+            color: black;
+        }
+        .radio .radiolist li:not(.active), #radio .radiolist li:not(.active) {
+            cursor: pointer !important;
+        }
+        .radio .radiolist .active {
+            background-color: yellow !important;
+            text-decoration: none;
+            -webkit-box-shadow: 3px 3px 3px yellow;
+            box-shadow: 3px 3px 3px yellow;
+        }
+        .radio .radiostatus {
+            display: block;
+            text-align: center;
+        }
+        .radio .radiocontrols, #radio .radiocontrols {
+            display: block;
+            margin: 15px auto;
+            text-align: center;
+        }
+        .radio .radiocontrols .volume, #radio .radiocontrols #volume {
+            padding: 0px 0px;
+            border-radius: 15px;
+        }
+        .radio .radiocontrols input {
+            float: none;
+        }
+        .active {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Test radio v2</h1>
+                <div class="radio" id="radio">
+                    <div class="radiolist" id="radiolist"></div>
+                    <div class="radiostatus" id="radiostatus"></div>
+                    <div class="radiocontrols" id="radiocontrols">
+                        <button class="btn btn-primary btnfirst" id="btnfirst">
+                            <i class="bi bi-chevron-double-left"></i>
+                        </button>
+                        <button class="btn btn-primary btnprev" id="btnprev">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button class="btn btn-primary btnplay" id="btnplay">
+                            <i class="bi bi-play"></i>
+                        </button>
+                        <button class="btn btn-primary btnpause" id="btnpause">
+                            <i class="bi bi-pause"></i>
+                        </button>
+                        <button class="btn btn-primary btnstop" id="btnstop">
+                            <i class="bi bi-stop"></i>
+                        </button>
+                        <button class="btn btn-primary btnnext" id="btnnext">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                        <button class="btn btn-primary btnlast" id="btnlast">
+                            <i class="bi bi-chevron-double-right"></i>
+                        </button>
+                        <button class="btn btn-primary btnmute" id="btnmute">
+                            <i class="bi bi-volume-mute"></i>
+                        </button>
+                        <button class="btn btn-primary btnclearcache" id="btnclearcache">Clear cache</button>
+                        <button class="btn btn-primary btnreload" id="btnreload">Reload</button>
+                        <div class="form-check mt-3">
+                            <input type="range" name="volume" id="volume" class="volume form-check-input w-auto" value="1" step="0.01" min="0" max="100" style="width: 150px;" />
+                            <label class="form-check-label ms-2" for="volume">Volume</label>
+                        </div>
+                        <div class="form-check mt-3">
+                            <input type="checkbox" id="autoplay" name="autoplay" class="autoplay form-check-input" value="false" />
+                            <label class="form-check-label" for="autoplay">Autoplay</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/node_modules/howler/dist/howler.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script>
+        async function getData(url = 'data/radio.json') {
+            const response = await fetch(url, {
+                method: 'GET', 
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer'
+            });
+
+            return response.json();
+        }
+
+        // async function getRedioAList() {
+        //     return await getData("data/radio.json").then(x => x.radio || x).catch(err => console.log(err));
+        // }
+
+        // async function getRadioASrc() {
+        //     return await getRadioAList().then(x => x.map(xy => { return xy.src; }));
+        // }
+
+        function getRadioList() {
+            getData("data/radio2.json").then((x) => {
+                localStorage.setItem("radiolist", JSON.stringify(x));
+            }).catch(err => { console.log(err); });
+
+            return JSON.parse(localStorage.getItem("radiolist"));
+            // return [{
+            //     id: 0,
+            //     title: "M80",
+            //     url: "http://mcrscast.mcr.iol.pt/m80"
+            // },
+            // { 
+            //     id: 1,
+            //     title: "Radio Comercial",
+            //     url: "http://mcrscast1.mcr.iol.pt/comercial.mp3"
+            // },
+            // {
+            //     id: 2,
+            //     title: "RFM",
+            //     url: "https://20423.live.streamtheworld.com/RFMAAC.aac?dist=triton-widget&tdsdk=js-2.9&swm=false&pname=tdwidgets&pversion=2.9&banners=none&burst-time=15"
+            // }];            
+        }
+
+        function getRadioSrc() {
+            var ary = [];
+            ary.push(getRadioList().map(x => x.url));
+            return ary[0];
+        }
+
+        function loadRadio(play = false, voldef = 1) {
+            return new Howl({
+                src: getRadioSrc(),
+                autoplay: play,
+                loop: true,
+                html5: true,
+                preload: true,
+                format: ["mp3", "mpeg", "opus", "ogg", "oga", "wav", "aac", "caf", "m4a", "m4b", "mp4", "weba", "webm", "dolby", "flac"],
+                volume: voldef,
+                xhr: {
+                    method: 'GET',
+                    headers: {
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    withCredentials: false
+                },
+                onload: function(id) {
+                    setRadioStatus(`Radio: Loaded!`);
+                    console.log(`Radio: Loaded (Id: ${id})!`);
+                },
+                onloaderror: function(id, err) {
+                    setRadioStatus(`Radio: Unable to load music! Reason: ${err}`);
+                    console.log(`Radio: Unable to load music (Id: ${id})! Reason: ${err}`);
+                },
+                onplay: function(id) {
+                    setRadioStatus(`Radio: Playing (Name: ${document.querySelector(".itemlist .item.active").textContent.trim()})!`);
+                    console.log(`Radio: Playing (Id: ${id})!`);
+                },
+                onplayerror: function(id, err) {
+                    setRadioStatus(`Radio: Unable to play music! Reason: ${err}`);
+                    console.log(`Radio: Unable to play music (Id: ${id})! Reason: ${err}`);
+                },
+                onmute: function(id) {
+                    setRadioStatus(`Radio: Muted!`);
+                    console.log(`Radio: Muted (Id: ${id})!`);
+                },
+                onpause: function(id) {
+                    setRadioStatus(`Radio: Paused!`);
+                    console.log(`Radio: Paused (Id: ${id})!`);
+                },
+                onstop: function(id) {
+                    setRadioStatus(`Radio: Stopped!`);
+                    console.log(`Radio: Stopped (Id: ${id})!`);
+                },
+                onmute: function(id) {
+                    setRadioStatus(`Radio: Muted!`);
+                    console.log(`Radio: Muted (Id: ${id})!`);
+                },
+                onend: function(id) {
+                    setRadioStatus(`Radio: Finished!`);
+                    console.log(`Radio: Finished (Id: ${id})!`);
+                }        
+            });
+        }
+
+        var autoplay = localStorage.getItem("autoplay") ? localStorage.getItem("autoplay") : false;
+        var voldef = localStorage.getItem("volume") ? localStorage.getItem("volume") : 1;
+        var sound = loadRadio(false, voldef);
+
+        function setRadioStatus(status) {
+            if(document.querySelector('#radiostatus')) {
+                document.querySelector('#radiostatus').innerHTML = "";
+                document.querySelector('#radiostatus').innerHTML = status;
+            }
+        }
+
+        function clearRadioItemActive() {
+            for(var k = 0; k < document.querySelectorAll('#radiolist .itemlist .item').length; k++) {
+                if(document.querySelectorAll('#radiolist .itemlist .item')[k].classList.contains("active")) {
+                    document.querySelectorAll('#radiolist .itemlist .item')[k].classList.remove("active");
+                }
+            }
+        }
+
+        function setRadioItemActive(id) {
+            if(document.querySelector('#radiolist') && document.querySelector('#radiolist .itemlist .item')) {
+                clearRadioItemActive();
+
+                for(var i = 0; i <= getRadioList().length - 1; i++) {
+                    if(i == id && !document.querySelectorAll('#radiolist .itemlist .item')[i].classList.contains("active")) {
+                        document.querySelectorAll('#radiolist .itemlist .item')[i].classList.add("active");
+                    }
+                }
+            }
+        }
+
+        function loadSound(sound) {
+            sound.load();
+        }
+
+        function unloadSound(sound) {
+            sound.unload();
+        }
+
+        function reloadSound(sound) {
+            sound.unload();
+            sound.play();
+        }
+
+        function playSound(sound, id) {
+            sound._src = getRadioSrc()[id];
+            sound.pause();
+            sound.play();
+        }
+
+        function stopSound(sound) {
+            sound.stop();
+        }
+
+        function pauseSound(sound) {
+            sound.pause();
+        }
+
+        function setVolume(sound, vol = 1) {
+            sound.volume(vol);
+        }
+
+        function loadRadioItemsText() {
+            if(document.querySelector('#radiolist')) {
+                if(getRadioList().length > 0) {
+                    var items = "";
+
+                    for(var i = 0; i <= getRadioList().length - 1; i++) {
+                        items += `
+                        <li class="item item${i+1}" id="item${i+1}" data-id="${i+1}">
+                            <a href="?songid=${getRadioList()[i].id}">
+                                ${getRadioList()[i].title}
+                            </a>
+                        </li>`;
+                    }
+                    
+                    document.querySelector('#radiolist').innerHTML = `<ol class='itemlist'>${items}</ol>`;
+                } else {
+                    document.querySelector('#radiolist').innerHTML =  '<p>0 musics data</p>';
+                }
+            }
+        }
+
+        function refHistWORef(dataid = 0) {
+            if(history.replaceState) {
+                history.replaceState(null, null, "?songid=" + dataid);
+            } else {
+                window.location.search = "?songid=" + dataid;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            var urlqp = new URLSearchParams(window.location.search);
+            localStorage.setItem('id', urlqp.get('songid') ? urlqp.get('songid') : 0);
+            id = localStorage.getItem("id") ? localStorage.getItem("id") : 0;
+            loadRadioItemsText();
+            setRadioItemActive(id);
+
+            if(document.querySelector('#radiolist #radioitem li a')) {
+                document.querySelector('#radiolist #radioitem li a').onclick = function(e) {
+                    e.preventDefault();
+                    var dataid = urlqp.get('songid') ? urlqp.get('songid') : 0;
+                    localStorage.setItem('id', dataid);
+                    setRadioItemActive(dataid);
+                    unloadSound(sound);
+                    playSound(sound, dataid);
+                    refHistWORef(dataid);
+                };
+            }
+            
+            if(document.querySelector('#btnplay')) {
+                document.querySelector('#btnplay').onclick = function() {
+                    id = localStorage.getItem('id') ? localStorage.getItem('id') : 0;
+                    unloadSound(sound);
+                    playSound(sound, id);
+                    setRadioItemActive(id);
+                };
+            }
+
+            if(document.querySelector('#btnstop')) {
+                document.querySelector('#btnstop').onclick = function() {
+                    id = localStorage.getItem('id') ? localStorage.getItem('id') : 0;
+                    unloadSound(sound);
+                    loadSound(sound);
+                    stopSound(sound);
+                };
+            }
+
+            if(document.querySelector('#btnpause')) {
+                document.querySelector('#btnpause').onclick = function() {
+                    id = localStorage.getItem('id') ? localStorage.getItem('id') : 0;
+                    unloadSound(sound);
+                    loadSound(sound);
+                    pauseSound(sound);
+                };
+            }
+
+            if(document.querySelector('#btnfirst')) {
+                document.querySelector('#btnfirst').onclick = function() {
+                    id = getRadioList().length - getRadioList().length;
+                    localStorage.setItem('id', id);
+                    setRadioItemActive(id);
+                    refHistWORef(id);
+
+                    if(autoplay == "true") {
+                        unloadSound(sound);
+                        playSound(sound, id);
+                    }
+                };
+            }
+
+            if(document.querySelector('#btnprev')) {
+                document.querySelector('#btnprev').onclick = function() {
+                    if(id > 0 && id <= getRadioList().length - 1) {
+                        id--;
+                    } else {
+                        id = getRadioList().length - 1;
+                    }
+
+                    localStorage.setItem('id', id);
+                    setRadioItemActive(id);
+                    refHistWORef(id);
+
+                    if(autoplay == "true") {
+                        unloadSound(sound);
+                        playSound(sound, id);
+                    }
+                };
+            }
+
+            if(document.querySelector('#btnnext')) {
+                document.querySelector('#btnnext').onclick = function() {
+                    if(id >= 0 && id < getRadioList().length - 1) {
+                        id++;
+                    } else {
+                        id = getRadioList().length - getRadioList().length;
+                    }
+
+                    localStorage.setItem('id', id);
+                    setRadioItemActive(id);
+                    refHistWORef(id);
+
+                    if(autoplay == "true") {
+                        unloadSound(sound);
+                        playSound(sound, id);
+                    }
+                };
+            }
+
+            if(document.querySelector('#btnlast')) {
+                document.querySelector('#btnlast').onclick = function() {
+                    id = getRadioList().length - 1;
+                    localStorage.setItem('id', id);
+                    setRadioItemActive(id);
+                    refHistWORef(id);
+
+                    if(autoplay == "true") {
+                        unloadSound(sound);
+                        playSound(sound, id);
+                    }
+                };
+            }
+
+            if(document.querySelector('#autoplay')) {
+                document.querySelector('#autoplay').value = localStorage.getItem("autoplay");
+
+                if(localStorage.getItem("autoplay") == "true") {
+                    document.querySelector('#autoplay').checked = true;
+                } else {
+                    document.querySelector('#autoplay').checked = false;
+                }
+
+                document.querySelector('#autoplay').onchange = function() {
+                    this.value = this.checked ? true : false;
+                    localStorage.setItem('autoplay', this.value);
+
+                    if(this.checked || localStorage.getItem("autoplay") == "true") {
+                        reloadSound(sound);
+                        playSound(sound, id);    
+                    } else {
+                        unloadSound(sound);
+                        stopSound(sound);
+                    }
+
+                    location.reload(true);
+                };
+            }
+
+            if(document.querySelector("#volume")) {
+                document.querySelector('#volume').value = localStorage.getItem("volume") * 100;
+
+                document.querySelector("#volume").onchange = function() {
+                    localStorage.setItem("volume", this.value * 0.01);
+                    localStorage.setItem("volumedef", this.value * 0.01);
+                    setVolume(sound, this.value * 0.01);
+                };
+            }
+
+            if(document.querySelector("#btnmute")) {
+                var isMuted = false;
+                var myvolval = "";
+
+                document.querySelector("#btnmute").onclick = function() {
+                    isMuted = isMuted == false ? true : false;
+                    myvolval = isMuted ? 0 : localStorage.getItem("volumedef");
+                    localStorage.setItem("volume", myvolval);
+                    setVolume(sound, myvolval);
+                    document.querySelector('#volume').value = myvolval * 100;
+                };
+            }
+
+            if(document.querySelector("#btnclearcache")) {
+                document.querySelector("#btnclearcache").onclick = function() {
+                    stopSound(sound);
+                    localStorage.clear();
+                    alert('Cache cleared!');
+                    location.reload(true);
+                    getRadioList();
+                };
+            }
+
+            if(document.querySelector("#btnreload")) {
+                document.querySelector("#btnreload").onclick = function() {
+                    stopSound(sound);
+                    location.reload(true);
+                    alert('Succesfully reloaded!');
+                };
+            }
+        });
+    </script>
+</body>
+</html>
