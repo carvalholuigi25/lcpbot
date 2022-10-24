@@ -5,42 +5,39 @@
   },
   "weather": [
     {
-      "id": 500,
-      "main": "Rain",
-      "description": "chuva fraca",
-      "icon": "10d"
+      "id": 804,
+      "main": "Clouds",
+      "description": "nublado",
+      "icon": "04d"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 15.19,
-    "feels_like": 15.11,
-    "temp_min": 15.11,
-    "temp_max": 17.2,
-    "pressure": 1008,
-    "humidity": 90,
-    "sea_level": 1008,
-    "grnd_level": 986
+    "temp": 18.43,
+    "feels_like": 18.55,
+    "temp_min": 17.84,
+    "temp_max": 18.45,
+    "pressure": 1016,
+    "humidity": 85,
+    "sea_level": 1016,
+    "grnd_level": 993
   },
   "visibility": 10000,
   "wind": {
-    "speed": 6.76,
-    "deg": 183,
-    "gust": 15.02
-  },
-  "rain": {
-    "1h": 0.29
+    "speed": 2.82,
+    "deg": 197,
+    "gust": 7.34
   },
   "clouds": {
-    "all": 31
+    "all": 100
   },
-  "dt": 1666256645,
+  "dt": 1666618896,
   "sys": {
     "type": 2,
     "id": 2021760,
     "country": "PT",
-    "sunrise": 1666248656,
-    "sunset": 1666287944
+    "sunrise": 1666594536,
+    "sunset": 1666633194
   },
   "timezone": 3600,
   "id": 2742032,

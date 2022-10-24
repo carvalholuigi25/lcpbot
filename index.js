@@ -1,12 +1,12 @@
+require('dotenv').config();
+
 const fs = require('fs');
 const {Collection, GuildMember, GatewayIntentBits, ActivityType} = require('discord.js');
 const {Player} = require('discord-player');
 const Client = require('./client/client.js');
-const config = require('./config.json');
+const config = require('./config.js');
 
-const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
-});
+const client = new Client();
 client.commands = new Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -54,8 +54,6 @@ client.once('ready', async () => {
 
 client.on('ready', function() {
   client.user.setActivity('LCPBot', { type: ActivityType.Listening });  
-  // client.presence.activities = config.activities;
-  // client.user.setPresence({ activities: [{ name: 'LCPBot Default Playlist',  type: ActivityType.Listening, url: "https://www.youtube.com/playlist?list=PLMH54BeyrYYQKjCrWeFLAqiBARPpAjENX" }], status: 'idle' });
 });
 
 client.once('reconnecting', () => {
@@ -81,13 +79,26 @@ client.on('messageCreate', async message => {
         console.error(err);
       });
   }
+
+  if (message.content === '!ping' && message.author.id === client.application?.owner?.id) {
+    await message.guild.commands
+    .set(client.commands)
+    .then(() => {
+      var timeTaken = Date.now() - message.createdTimestamp;
+      message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
+    })
+    .catch(err => {
+      message.reply('Could not deploy this command! Make sure the bot has the application.commands permission!');
+      console.error(err);
+    });
+  }
 });
 
 client.on('interactionCreate', async interaction => {
   const command = client.commands.get(interaction.commandName.toLowerCase());
 
   try {
-    if (interaction.commandName == 'ban' || interaction.commandName == 'userinfo') {
+    if (['ban', 'userinfo'].includes(interaction.commandName)) {
       command.execute(interaction, client);
     } else {
       command.execute(interaction, player);
