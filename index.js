@@ -54,7 +54,7 @@ client.once('ready', async () => {
 });
 
 client.on('ready', function() {
-  client.user.setActivity('LCPBotLocal', { type: ActivityType.Listening });  
+  client.user.setActivity(isLocal ? 'LCPBotLocal' : 'LCPBot', { type: ActivityType.Listening });  
 });
 
 client.once('reconnecting', () => {
