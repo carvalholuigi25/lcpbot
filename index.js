@@ -1,10 +1,12 @@
 require('dotenv').config();
 
+const http = require('http');
 const fs = require('fs');
-const {Collection, GuildMember, GatewayIntentBits, ActivityType} = require('discord.js');
-const {Player} = require('discord-player');
+const { Collection, GuildMember, GatewayIntentBits, ActivityType } = require('discord.js');
+const { Player } = require('discord-player');
 const Client = require('./client/client.js');
 const config = require('./config.js');
+const port = 5000;
 
 const client = new Client();
 client.commands = new Collection();
@@ -53,7 +55,7 @@ client.once('ready', async () => {
 });
 
 client.on('ready', function() {
-  client.user.setActivity('LCPBot', { type: ActivityType.Listening });  
+  client.user.setActivity('LCPBot', { type: ActivityType.Listening });
 });
 
 client.once('reconnecting', () => {
@@ -82,15 +84,15 @@ client.on('messageCreate', async message => {
 
   if (message.content === '!ping' && message.author.id === client.application?.owner?.id) {
     await message.guild.commands
-    .set(client.commands)
-    .then(() => {
-      var timeTaken = Date.now() - message.createdTimestamp;
-      message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
-    })
-    .catch(err => {
-      message.reply('Could not deploy this command! Make sure the bot has the application.commands permission!');
-      console.error(err);
-    });
+      .set(client.commands)
+      .then(() => {
+        var timeTaken = Date.now() - message.createdTimestamp;
+        message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
+      })
+      .catch(err => {
+        message.reply('Could not deploy this command! Make sure the bot has the application.commands permission!');
+        console.error(err);
+      });
   }
 });
 
@@ -112,3 +114,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(config.token);
+//http.createServer({}).listen(port);
+//http.createServer(function (req, res) {
+  //res.end();
+//}).listen(port);
