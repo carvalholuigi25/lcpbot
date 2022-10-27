@@ -28,6 +28,7 @@
     "ffmpeg-static": "^5.1.0",
     "fluent-ffmpeg": "^2.1.2",
     "howler": "^2.2.3",
+    "http-terminator": "^3.2.0",
     "json-server": "^0.17.0",
     "node-fetch": "^2.6.7",
     "xml2js": "^0.4.23",
