@@ -1,5 +1,9 @@
 const { GuildMember, ApplicationCommandOptionType } = require('discord.js');
-const {  joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, StreamType } = require("@discordjs/voice");
+const {  
+  VoiceConnectionStatus, joinVoiceChannel, createAudioPlayer, 
+  createAudioResource, AudioPlayerStatus, StreamType, 
+  NoSubscriberBehavior 
+} = require("@discordjs/voice");
 const {QueryType} = require('discord-player');
 const radio = require('discord-radio-player');
 
@@ -11,7 +15,11 @@ function playmyradio(streamUrl, interaction) {
         adapterCreator: interaction.guild.voiceAdapterCreator
     });
 
-    const myplayer = createAudioPlayer();
+    const myplayer = createAudioPlayer({
+      behaviors: {
+        noSubscriber: NoSubscriberBehavior.Play,
+      },
+    });
 
     let res = createAudioResource(streamUrl, {
       inputType: StreamType.Opus,
@@ -21,13 +29,46 @@ function playmyradio(streamUrl, interaction) {
       },
     });
 
+    connection.subscribe(myplayer);
+
     res.volume.setVolume(1);
     myplayer.play(res);
 
+    console.log('Resource object: \r\n');
+    console.log(res);
+    console.log('\r\n----------------------------------\r\n');
+    console.log('MyPlayer object: \r\n');
+    console.log(myplayer);
+
+    connection.on(VoiceConnectionStatus.Ready, (oldState, newState) => {
+      console.log('Connection is in the Ready state!');
+    });
+
     myplayer.on(AudioPlayerStatus.Playing, () => {
-      console.log('The audio player has started playing!');
+      console.log('The audio player has started playing! (Url: '+streamUrl+')');
       interaction.followUp({
         content: `The audio player has started playing!`,
+      });
+    });
+
+    myplayer.on(AudioPlayerStatus.Buffering, () => {
+      console.log('The audio player still buffering...');
+      interaction.followUp({
+        content: `The audio player still buffering...`,
+      });
+    });
+
+    myplayer.on(AudioPlayerStatus.Paused, () => {
+      console.log('The audio player still paused...');
+      interaction.followUp({
+        content: `The audio player still paused...`,
+      });
+    });
+
+    myplayer.on(AudioPlayerStatus.AutoPaused, () => {
+      console.log('The audio player still auto paused...');
+      interaction.followUp({
+        content: `The audio player still auto paused...`,
       });
     });
     
@@ -49,8 +90,6 @@ function playmyradio(streamUrl, interaction) {
       myplayer.stop(true);
       connection.destroy();
     });
-
-    connection.subscribe(myplayer);
 
     if (
       interaction.guild.members.me.voice.channelId &&
