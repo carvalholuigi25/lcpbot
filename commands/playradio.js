@@ -29,10 +29,10 @@ function playmyradio(streamUrl, interaction) {
       },
     });
 
-    connection.subscribe(myplayer);
-
     res.volume.setVolume(1);
     myplayer.play(res);
+
+    connection.subscribe(myplayer);
 
     console.log('Resource object: \r\n');
     console.log(res);
