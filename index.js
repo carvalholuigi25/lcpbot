@@ -1,12 +1,14 @@
 require('dotenv').config();
 
-const http = require('http');
+// const keep_alive = require('./keep_alive.js');
+// const port = 5000;
+// const http = require('http');
+
 const fs = require('fs');
-const { Collection, GuildMember, GatewayIntentBits, ActivityType } = require('discord.js');
+const { Collection, ActivityType } = require('discord.js');
 const { Player } = require('discord-player');
 const Client = require('./client/client.js');
 const config = require('./config.js');
-const port = 5000;
 
 const client = new Client();
 client.commands = new Collection();
@@ -114,7 +116,3 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(config.token);
-//http.createServer({}).listen(port);
-//http.createServer(function (req, res) {
-  //res.end();
-//}).listen(port);

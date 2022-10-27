@@ -1,17 +1,17 @@
+const port = 5001
+const http = require('http')
 const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const nfetch = require('node-fetch')
 const xml2js = require('xml2js')
 const jsonServer = require('json-server')
-const http = require('http')
 const fs = require('fs')
 const conf = require(path.join(__dirname, 'config.js'))
 const funcs = require(path.join(__dirname, 'functions.js'))
 const server = jsonServer.create()
 const router = jsonServer.router(path.join(__dirname, 'db.json'))
 const middlewares = jsonServer.defaults()
-const port = 5001
 
 server.use(cors())
 server.use(middlewares)
@@ -169,6 +169,3 @@ server.use(jsonServer.rewriter({
 
 server.use(router)
 http.createServer({}, server).listen(port);
-//http.createServer(function(req, res) {
-  //res.end();
-//}, server).listen(port);
