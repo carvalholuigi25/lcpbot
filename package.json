@@ -32,8 +32,11 @@
     "howler": "^2.2.3",
     "http-terminator": "^3.2.0",
     "json-server": "^0.17.0",
+    "libsodium-wrappers": "^0.7.10",
     "node-fetch": "^2.6.7",
     "radio-browser": "^2.2.1",
+    "sodium-native": "^3.4.1",
+    "tweetnacl": "^1.0.3",
     "xml2js": "^0.4.23",
     "ytdl-core": "^4.11.0"
   }
