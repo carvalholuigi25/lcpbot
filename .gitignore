@@ -5,3 +5,4 @@ myinfo.json
 npm-debug.log
 .env
 /.vs
+/data/weather.json
