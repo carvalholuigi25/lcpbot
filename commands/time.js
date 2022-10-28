@@ -19,7 +19,7 @@ module.exports = {
   execute(interaction, client) {
     const id = interaction.options.getInteger('id') ? interaction.options.getInteger('id') : -1;
     var urlq = ""; var msg = "";  var myres = "";
-    var apiurl = process.env.isLocal ? conf.apiRealUrl : conf.apiLocalUrl;
+    var apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
 
     if(id != -1) {
         urlq = !urlq.includes("?") ? `?id=${id}` : `&id=${id}` ;

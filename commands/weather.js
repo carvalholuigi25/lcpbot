@@ -48,7 +48,7 @@ module.exports = {
     const units = interaction.options.getString('units') ? interaction.options.getString('units') : "metric";
     const lang = interaction.options.getString('lang') ? interaction.options.getString('lang') : "pt";
     var urlq = ""; var msg = ""; var myres = "";
-    var apiurl = process.env.isLocal ? conf.apiRealUrl : conf.apiLocalUrl;
+    var apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
 
     if(city != "") {
         urlq = !urlq.includes("?") ? `?city=${city}` : `&city=${city}` ;

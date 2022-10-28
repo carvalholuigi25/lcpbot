@@ -27,7 +27,7 @@ module.exports = {
     const title = interaction.options.getString('title') ? interaction.options.getString('title') : "";
     const play = interaction.options.getBoolean('play') ? interaction.options.getBoolean('play') : false;
     var urlq = ""; var msg = "";  var myres = "";
-    var apiurl = process.env.isLocal ? conf.apiRealUrl : conf.apiLocalUrl;
+    var apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
 
     if(id != -1) {
         urlq = !urlq.includes("?") ? `?id=${id}` : `&id=${id}` ;
