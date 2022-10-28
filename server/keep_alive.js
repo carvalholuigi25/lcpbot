@@ -1,14 +1,14 @@
-var http = require('http');
-var createHttpTerminator = require('http-terminator');
+const http = require('http');
+const { createHttpTerminator } = require('http-terminator');
 
 async function startServer(port, server) {
-  http.createServer(function(req, res) {
+  const myserver = http.createServer(function(req, res) {
     res.write("I'm alive");
     res.end();
   }, server).listen(port);
-
-  if (server != null) {
-    await stopServer(server);
+  
+  if (myserver != null) {
+    await stopServer(myserver);
   }
 }
 
@@ -16,19 +16,21 @@ async function stopServer(server) {
   const httpTerminator = createHttpTerminator({
     server,
   });
-
-  await httpTerminator.terminate();
+  
+  await httpTerminator.terminate(); 
 }
 
-async function keepServerAlive(port, server, hour = 24, modetype = "normal") {
+async function keepServerAlive(port, server = null, hour = 24, modetype = "normal") {
+  server = server != null ? server : {};
+  
   if (modetype == "timeout") {
     clearTimeout();
-    setTimeout(() => {
+    setTimeout(async () => {
       await startServer(port, server);
     }, 60 * 60 * hour);
   } else if (modetype == "interval") {
     clearInterval();
-    setInterval(() => {
+    setInterval(async () => {
       await startServer(port, server);
     }, 60 * 60 * hour);
   } else {
