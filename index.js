@@ -1,16 +1,13 @@
 require('dotenv').config();
 
-// const keep_alive = require('./keep_alive.js');
-// const port = 5000;
-// const http = require('http');
-
+const isLocal = process.env.isLocal ? process.env.isLocal : false;
 const fs = require('fs');
 const { Collection, ActivityType } = require('discord.js');
 const { Player } = require('discord-player');
 const Client = require('./client/client.js');
 const config = require('./config.js');
-
 const client = new Client();
+
 client.commands = new Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -57,7 +54,7 @@ client.once('ready', async () => {
 });
 
 client.on('ready', function() {
-  client.user.setActivity('LCPBot', { type: ActivityType.Listening });
+  client.user.setActivity(isLocal ? 'LCPBotLocal' : 'LCPBot', { type: ActivityType.Listening });  
 });
 
 client.once('reconnecting', () => {
@@ -115,4 +112,5 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
-client.login(config.token);
+console.log("Is Local Server: " + isLocal);
+client.login(isLocal ? config.tokenLocal : config.token);
