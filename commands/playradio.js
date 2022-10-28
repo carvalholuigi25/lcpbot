@@ -92,7 +92,7 @@ function playmyradio(streamUrl, interaction, isStop = false) {
 
 module.exports = {
   name: 'playradio',
-  description: 'Play a radio in your channel! (Work in Progress)',
+  description: 'Play a radio in your channel!',
   options: [
     {
       name: 'searchterm',
