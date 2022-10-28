@@ -114,5 +114,5 @@ client.on('interactionCreate', async interaction => {
 });
 
 console.log("Is Local Server: " + isLocal);
-client.login(isLocal ? config.tokenLocal : config.token);
+client.login(isLocal == "true" ? config.tokenLocal : config.token);
 myctsrv.keepServerAlive(5000, null, 24, "normal");
