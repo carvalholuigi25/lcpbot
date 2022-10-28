@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const {ApplicationCommandOptionType } = require('discord.js');
 const funcs = require('../functions.js');
 const path = require('path');
@@ -37,8 +39,8 @@ module.exports = {
     const title = interaction.options.getString('title') ? interaction.options.getString('title') : "";
     const limit = interaction.options.getInteger('limit') ? interaction.options.getInteger('limit') : -1;
     const page = interaction.options.getInteger('page') ? interaction.options.getInteger('page') : 1;
-    var srchres = ""; var items = ""; var urlq = ""; 
-    var msg = "";
+    const apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
+    var srchres = ""; var items = ""; var urlq = ""; var msg = "";
 
     if(id != -1) {
         urlq = !urlq.includes("?") ? `?id=${id}` : `&id=${id}` ;
@@ -56,7 +58,7 @@ module.exports = {
         urlq += !urlq.includes("?") ? `?_limit=${limit}` : `&_limit=${limit}`;
     }
 
-    funcs.getData(`${conf.apiRealUrl}/api/feeds${urlq}`).then(x => {
+    funcs.getData(`${apiurl}/api/feeds${urlq}`).then(x => {
         srchres = JSON.parse(JSON.stringify(x)).feeds != null ? JSON.parse(JSON.stringify(x)).feeds : JSON.parse(JSON.stringify(x));
         items = srchres;
         // console.log(JSON.stringify(items));

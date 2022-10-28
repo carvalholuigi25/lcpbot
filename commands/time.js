@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const {ApplicationCommandOptionType } = require('discord.js');
 const funcs = require('../functions.js');
 const path = require('path');
@@ -16,13 +18,14 @@ module.exports = {
   ],
   execute(interaction, client) {
     const id = interaction.options.getInteger('id') ? interaction.options.getInteger('id') : -1;
+    const apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
     var urlq = ""; var msg = "";  var myres = "";
 
     if(id != -1) {
         urlq = !urlq.includes("?") ? `?id=${id}` : `&id=${id}` ;
     }
 
-    funcs.getData(`${conf.apiRealUrl}/api/time${urlq}`).then(x => {
+    funcs.getData(`${apiurl}/api/time${urlq}`).then(x => {
         myres = JSON.parse(JSON.stringify(x)).time != null ? JSON.parse(JSON.stringify(x)).time : JSON.parse(JSON.stringify(x));
         // console.log(JSON.stringify(myres));
 

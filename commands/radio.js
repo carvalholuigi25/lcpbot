@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { ApplicationCommandOptionType } = require('discord.js');
 const funcs = require('../functions.js');
 const path = require('path');
@@ -24,6 +26,7 @@ module.exports = {
     const id = interaction.options.getInteger('id') ? interaction.options.getInteger('id') : -1;
     const title = interaction.options.getString('title') ? interaction.options.getString('title') : "";
     const play = interaction.options.getBoolean('play') ? interaction.options.getBoolean('play') : false;
+    const apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
     var urlq = ""; var msg = "";  var myres = "";
 
     if(id != -1) {
@@ -34,7 +37,7 @@ module.exports = {
         urlq += !urlq.includes("?") ? `?title=${title}` : `&title=${title}`;
     }
 
-    funcs.getData(`${conf.apiRealUrl}/api/radio${urlq}`).then(x => {
+    funcs.getData(`${apiurl}/api/radio${urlq}`).then(x => {
         myres = JSON.parse(JSON.stringify(x)).radio != null ? JSON.parse(JSON.stringify(x)).radio : JSON.parse(JSON.stringify(x));
         // console.log(JSON.stringify(myres));
 

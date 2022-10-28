@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const {ApplicationCommandOptionType } = require('discord.js');
 const funcs = require('../functions.js');
 const path = require('path');
@@ -45,6 +47,7 @@ module.exports = {
     //metric = Celsius, imperial = Fahrenheit, standard = default (imperial)
     const units = interaction.options.getString('units') ? interaction.options.getString('units') : "metric";
     const lang = interaction.options.getString('lang') ? interaction.options.getString('lang') : "pt";
+    const apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
     var urlq = ""; var msg = ""; var myres = "";
 
     if(city != "") {
@@ -67,7 +70,7 @@ module.exports = {
         urlq += !urlq.includes("?") ? `?lang=${lang}` : `&lang=${lang}`;
     }
 
-    funcs.getData(`${conf.apiRealUrl}/api/weather${urlq}`).then(x => {
+    funcs.getData(`${apiurl}/api/weather${urlq}`).then(x => {
         myres = JSON.parse(JSON.stringify(x));
 
         // console.log(JSON.stringify(myres));
