@@ -1,11 +1,12 @@
 require('dotenv').config();
 
-const isLocal = process.env.isLocal ? process.env.isLocal : false;
+const myctsrv = require('./server/keep_alive.js');
 const fs = require('fs');
 const { Collection, ActivityType } = require('discord.js');
 const { Player } = require('discord-player');
 const Client = require('./client/client.js');
 const config = require('./config.js');
+const isLocal = process.env.isLocal ? process.env.isLocal : false;
 const client = new Client();
 
 client.commands = new Collection();
@@ -54,7 +55,7 @@ client.once('ready', async () => {
 });
 
 client.on('ready', function() {
-  client.user.setActivity(isLocal ? 'LCPBotLocal' : 'LCPBot', { type: ActivityType.Listening });  
+  client.user.setActivity(isLocal ? 'LCPBotLocal' : 'LCPBot', { type: ActivityType.Listening });
 });
 
 client.once('reconnecting', () => {
@@ -113,4 +114,5 @@ client.on('interactionCreate', async interaction => {
 });
 
 console.log("Is Local Server: " + isLocal);
-client.login(isLocal ? config.tokenLocal : config.token);
+client.login(isLocal == "true" ? config.tokenLocal : config.token);
+myctsrv.keepServerAlive(5000, null, 24, "normal");
