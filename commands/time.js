@@ -1,5 +1,7 @@
 const {ApplicationCommandOptionType } = require('discord.js');
 const funcs = require('../functions.js');
+const path = require('path');
+const conf = require(path.join(__dirname, '../config.js'));
 
 module.exports = {
   name: 'time',
@@ -20,7 +22,7 @@ module.exports = {
         urlq = !urlq.includes("?") ? `?id=${id}` : `&id=${id}` ;
     }
 
-    funcs.getData(`http://localhost:3001/api/time${urlq}`).then(x => {
+    funcs.getData(`${conf.apiRealUrl}/api/time${urlq}`).then(x => {
         myres = JSON.parse(JSON.stringify(x)).time != null ? JSON.parse(JSON.stringify(x)).time : JSON.parse(JSON.stringify(x));
         // console.log(JSON.stringify(myres));
 

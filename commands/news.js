@@ -1,5 +1,7 @@
 const {ApplicationCommandOptionType } = require('discord.js');
 const funcs = require('../functions.js');
+const path = require('path');
+const conf = require(path.join(__dirname, '../config.js'));
 
 module.exports = {
   name: 'news',
@@ -54,7 +56,7 @@ module.exports = {
     //     urlq += !urlq.includes("?") ? `?_limit=${limit}` : `&_limit=${limit}`;
     // }
 
-    funcs.getData(`http://localhost:3001/api/news${urlq}`).then(x => {
+    funcs.getData(`${conf.apiRealUrl}/api/news${urlq}`).then(x => {
         srchres = JSON.parse(JSON.stringify(x)).rss;
         items = srchres.channel[0].item;
 

@@ -1,5 +1,7 @@
 const { ApplicationCommandOptionType } = require('discord.js');
 const funcs = require('../functions.js');
+const path = require('path');
+const conf = require(path.join(__dirname, '../config.js'));
 
 module.exports = {
   name: 'radio',
@@ -32,7 +34,7 @@ module.exports = {
         urlq += !urlq.includes("?") ? `?title=${title}` : `&title=${title}`;
     }
 
-    funcs.getData(`http://localhost:3001/api/radio${urlq}`).then(x => {
+    funcs.getData(`${conf.apiRealUrl}/api/radio${urlq}`).then(x => {
         myres = JSON.parse(JSON.stringify(x)).radio != null ? JSON.parse(JSON.stringify(x)).radio : JSON.parse(JSON.stringify(x));
         // console.log(JSON.stringify(myres));
 

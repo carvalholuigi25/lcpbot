@@ -2,8 +2,8 @@ require('dotenv').config();
 
 const isLocal = process.env.isLocal ? process.env.isLocal : false;
 const fs = require('fs');
-const {Collection, GuildMember, GatewayIntentBits, ActivityType} = require('discord.js');
-const {Player} = require('discord-player');
+const { Collection, ActivityType } = require('discord.js');
+const { Player } = require('discord-player');
 const Client = require('./client/client.js');
 const config = require('./config.js');
 const client = new Client();
@@ -83,15 +83,15 @@ client.on('messageCreate', async message => {
 
   if (message.content === '!ping' && message.author.id === client.application?.owner?.id) {
     await message.guild.commands
-    .set(client.commands)
-    .then(() => {
-      var timeTaken = Date.now() - message.createdTimestamp;
-      message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
-    })
-    .catch(err => {
-      message.reply('Could not deploy this command! Make sure the bot has the application.commands permission!');
-      console.error(err);
-    });
+      .set(client.commands)
+      .then(() => {
+        var timeTaken = Date.now() - message.createdTimestamp;
+        message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
+      })
+      .catch(err => {
+        message.reply('Could not deploy this command! Make sure the bot has the application.commands permission!');
+        console.error(err);
+      });
   }
 });
 

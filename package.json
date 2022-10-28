@@ -4,9 +4,9 @@
   "description": "lcp bot for discord",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start_bot": "node index.js",
     "start_api_srv": "node server.js",
-    "start_all": "concurrently \"npm run start_api_srv\" \"npm run start\"",
+    "start": "concurrently \"npm run start_api_srv\" \"npm run start_bot\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
