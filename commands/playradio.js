@@ -1,47 +1,53 @@
 const { GuildMember, ApplicationCommandOptionType } = require('discord.js');
-const {  
-  VoiceConnectionStatus, joinVoiceChannel, createAudioPlayer, 
-  createAudioResource, AudioPlayerStatus, StreamType, 
-  NoSubscriberBehavior 
-} = require("@discordjs/voice");
+const { joinVoiceChannel, createAudioPlayer,  createAudioResource, AudioPlayerStatus, StreamType } = require("@discordjs/voice");
 const {QueryType} = require('discord-player');
 const radio = require('discord-radio-player');
 
-function playmyradio(streamUrl, interaction) {
-    const connection = joinVoiceChannel(
-    {
-        channelId: interaction.member.voice.channel,
-        guildId: interaction.guild.id,
-        adapterCreator: interaction.guild.voiceAdapterCreator
-    });
+function playmyradio(streamUrl, interaction, isStop = false) {
+    const isDebug = 0;
+    const confCon = {
+      channelId: interaction.member.voice.channel.id,
+      guildId: interaction.guild.id,
+      adapterCreator: interaction.guild.voiceAdapterCreator,
+      selfDeaf: true
+    };
 
-    const myplayer = createAudioPlayer({
-      behaviors: {
-        noSubscriber: NoSubscriberBehavior.Play,
-      },
-    });
-
-    let res = createAudioResource(streamUrl, {
-      inputType: StreamType.Opus,
-      inlineVolume: true,
-      metadata: {
-        title: 'Radio',
-      },
-    });
+    const connection = joinVoiceChannel(confCon);
+    const myplayer = createAudioPlayer();
+    const res = createAudioResource(streamUrl, { inlineVolume: true });
 
     res.volume.setVolume(1);
     myplayer.play(res);
-
     connection.subscribe(myplayer);
 
-    console.log('Resource object: \r\n');
-    console.log(res);
-    console.log('\r\n----------------------------------\r\n');
-    console.log('MyPlayer object: \r\n');
-    console.log(myplayer);
-
-    connection.on(VoiceConnectionStatus.Ready, (oldState, newState) => {
-      console.log('Connection is in the Ready state!');
+    if(isDebug == 1) {
+      console.log('\r\n----------------------------------\r\n');
+      console.log('Connection object 1: \r\n');
+      console.log(confCon);
+      console.log('\r\n----------------------------------\r\n');
+      console.log('Connection object 2: \r\n');
+      console.log(connection);
+      console.log('\r\n----------------------------------\r\n');
+      console.log('Resource object: \r\n');
+      console.log(res);
+      console.log('\r\n----------------------------------\r\n');
+      console.log('MyPlayer object: \r\n');
+      console.log(myplayer);
+      console.log('\r\n----------------------------------\r\n');
+    }
+    
+    myplayer.on(AudioPlayerStatus.Idle, () => {
+      console.log('The audio player is still on state idle...');
+      
+      if(isStop == true) {
+        interaction.followUp({
+          content: `The audio player has been stopped!`,
+        });
+      } else {
+        interaction.followUp({
+          content: `The audio player is still on state idle...`,
+        });
+      }
     });
 
     myplayer.on(AudioPlayerStatus.Playing, () => {
@@ -52,33 +58,17 @@ function playmyradio(streamUrl, interaction) {
     });
 
     myplayer.on(AudioPlayerStatus.Buffering, () => {
-      console.log('The audio player still buffering...');
+      console.log('The audio player is buffering...');
       interaction.followUp({
-        content: `The audio player still buffering...`,
+        content: `The audio player is buffering...`,
       });
     });
 
     myplayer.on(AudioPlayerStatus.Paused, () => {
-      console.log('The audio player still paused...');
+      console.log('The audio player has been paused!');
       interaction.followUp({
-        content: `The audio player still paused...`,
+        content: `The audio player has been paused!`,
       });
-    });
-
-    myplayer.on(AudioPlayerStatus.AutoPaused, () => {
-      console.log('The audio player still auto paused...');
-      interaction.followUp({
-        content: `The audio player still auto paused...`,
-      });
-    });
-    
-    myplayer.on(AudioPlayerStatus.Idle, () => {
-      interaction.followUp({
-        content: `The audio player is on state idle!`,
-      });
-
-      myplayer.stop();
-      myplayer.play(getNextResource());
     });
 
     myplayer.on('error', error => {
@@ -92,8 +82,8 @@ function playmyradio(streamUrl, interaction) {
     });
 
     if (
-      interaction.guild.members.me.voice.channelId &&
-      interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId
+      ( interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) || 
+      isStop == true
     ) {
       myplayer.stop(true);
       connection.destroy();
@@ -110,6 +100,12 @@ module.exports = {
       description: 'The search term (radio url, name, etc...) you want to play',
       required: false,
     },
+    {
+      name: 'stop',
+      type: ApplicationCommandOptionType.Boolean,
+      description: 'It stops the radio',
+      required: false
+    }
   ],
   async execute(interaction, player) {
     try {
@@ -133,9 +129,10 @@ module.exports = {
       await interaction.deferReply();
 
       const qsterm = interaction.options.getString('searchterm');
+      const qstop = interaction.options.getBoolean('stop') ? interaction.options.getBoolean('stop') : false;
       const streamUrl = qsterm ? qsterm : "http://media3.mcr.iol.pt/livefm/m80.mp3/icecast.audio";
       
-      playmyradio(streamUrl, interaction);
+      playmyradio(streamUrl, interaction, qstop);
     } catch (error) {
       console.log(error);
       interaction.followUp({
