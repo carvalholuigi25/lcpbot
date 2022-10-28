@@ -47,8 +47,8 @@ module.exports = {
     //metric = Celsius, imperial = Fahrenheit, standard = default (imperial)
     const units = interaction.options.getString('units') ? interaction.options.getString('units') : "metric";
     const lang = interaction.options.getString('lang') ? interaction.options.getString('lang') : "pt";
+    const apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
     var urlq = ""; var msg = ""; var myres = "";
-    var apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
 
     if(city != "") {
         urlq = !urlq.includes("?") ? `?city=${city}` : `&city=${city}` ;

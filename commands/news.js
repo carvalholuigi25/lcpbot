@@ -39,9 +39,8 @@ module.exports = {
     const title = interaction.options.getString('title') ? interaction.options.getString('title') : "";
     const limit = interaction.options.getInteger('limit') ? interaction.options.getInteger('limit') : 5;
     const page = interaction.options.getInteger('page') ? interaction.options.getInteger('page') : 1;
-    var srchres = ""; var items  = ""; var urlq = ""; 
-    var msg = "";
-    var apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
+    const apiurl = process.env.isLocal ? conf.apiLocalUrl : conf.apiRealUrl;
+    var srchres = ""; var items  = ""; var urlq = ""; var msg = "";
 
     if(id != -1) {
         urlq = !urlq.includes("?") ? `?id=${id}` : `&id=${id}` ;
