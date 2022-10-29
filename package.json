@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start_bot": "cross-env isLocal='false' node index.js",
-    "start_api_srv": "cross-env isLocal='false' node server.js",
     "start_bot_local": "cross-env isLocal='true' node index.js",
-    "start_api_srv_local": "cross-env isLocal='true' node server.js",
-    "start": "concurrently \"npm run start_api_srv\" \"npm run start_bot\"",
-    "start_local": "concurrently \"npm run start_api_srv_local\" \"npm run start_bot_local\"",
+    "start_api": "cross-env isLocal='false' node server.js",
+    "start_api_local": "cross-env isLocal='true' node server.js",
+    "start": "concurrently \"npm run start_bot\"",
+    "start_local": "concurrently \"npm run start_bot_local\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

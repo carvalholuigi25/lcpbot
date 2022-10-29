@@ -1,4 +1,3 @@
-const port = 5001
 const http = require('http')
 const express = require('express')
 const cors = require('cors')
@@ -165,7 +164,7 @@ server.use(jsonServer.rewriter({
   '/api/*': '/$1',
   '/api/feeds\\?id=:id': '/feeds/:id',
   '/api/news\\?id=:id': '/news/:id'
-}))
+}));
 
-server.use(router)
-http.createServer({}, server).listen(port);
+server.use(router);
+http.createServer({}, server).listen(5001);

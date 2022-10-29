@@ -1,7 +1,7 @@
 const http = require('http');
 const { createHttpTerminator } = require('http-terminator');
 
-async function startServer(port, server) {
+async function startServer(port = 5003, server) {
   const myserver = http.createServer(function(req, res) {
     res.write("I'm alive");
     res.end();
@@ -20,7 +20,7 @@ async function stopServer(server) {
   await httpTerminator.terminate(); 
 }
 
-async function keepServerAlive(port, server = null, hour = 24, modetype = "normal") {
+async function keepServerAlive(port = 5003, server = null, hour = 24, modetype = "normal") {
   server = server != null ? server : {};
   
   if (modetype == "timeout") {

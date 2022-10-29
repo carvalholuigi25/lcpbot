@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const myserver = require('./server.js');
 const fs = require('fs');
 const { Collection, ActivityType } = require('discord.js');
 const { Player } = require('discord-player');
