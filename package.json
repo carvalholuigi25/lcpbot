@@ -4,12 +4,9 @@
   "description": "lcp bot for discord",
   "main": "index.js",
   "scripts": {
-    "start_bot": "cross-env isLocal='false' node index.js",
-    "start_bot_local": "cross-env isLocal='true' node index.js",
-    "start_api": "cross-env isLocal='false' node server.js",
-    "start_api_local": "cross-env isLocal='true' node server.js",
-    "start": "concurrently \"npm run start_bot\"",
-    "start_local": "concurrently \"npm run start_bot_local\"",
+    "start": "npm stop --if-present && cross-env isLocal='false' node index.js",
+    "start_local": "npm stop --if-present && cross-env isLocal='true' node index.js",
+    "reset": "npm stop --if-present && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
