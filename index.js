@@ -1,6 +1,6 @@
 require('dotenv').config();
+require('./server.js');
 
-const myserver = require('./server.js');
 const fs = require('fs');
 const { Collection, ActivityType } = require('discord.js');
 const { Player } = require('discord-player');
@@ -88,6 +88,22 @@ client.on('messageCreate', async message => {
       .then(() => {
         var timeTaken = Date.now() - message.createdTimestamp;
         message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
+      })
+      .catch(err => {
+        message.reply('Could not deploy this command! Make sure the bot has the application.commands permission!');
+        console.error(err);
+      });
+  }
+
+  if(message.content === `!reload`) {
+    await message.guild.commands
+      .set(client.commands)
+      .then(() => {
+        console.clear();
+        console.log("Reloaded");
+        client.destroy();
+        client.login(isLocal == "true" ? config.tokenLocal : config.token);
+        message.reply("Reloaded");
       })
       .catch(err => {
         message.reply('Could not deploy this command! Make sure the bot has the application.commands permission!');
