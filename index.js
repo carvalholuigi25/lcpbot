@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-const myctsrv = require('./server/keep_alive.js');
 const fs = require('fs');
 const { Collection, ActivityType } = require('discord.js');
 const { Player } = require('discord-player');
@@ -70,7 +69,7 @@ client.on('messageCreate', async message => {
   if (message.author.bot || !message.guild) return;
   if (!client.application?.owner) await client.application?.fetch();
 
-  if (message.content === '!deploy' && message.author.id === client.application?.owner?.id) {
+  if (message.content === '!deploy') {
     await message.guild.commands
       .set(client.commands)
       .then(() => {
@@ -82,7 +81,7 @@ client.on('messageCreate', async message => {
       });
   }
 
-  if (message.content === '!ping' && message.author.id === client.application?.owner?.id) {
+  if (message.content === '!ping') {
     await message.guild.commands
       .set(client.commands)
       .then(() => {
@@ -115,4 +114,3 @@ client.on('interactionCreate', async interaction => {
 
 console.log("Is Local Server: " + isLocal);
 client.login(isLocal == "true" ? config.tokenLocal : config.token);
-myctsrv.keepServerAlive(5000, null, 24, "normal");
