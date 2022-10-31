@@ -2,7 +2,7 @@ const {GuildMember, ApplicationCommandOptionType } = require('discord.js');
 const {QueryType} = require('discord-player');
 
 module.exports = {
-  name: 'play_myplaylist',
+  name: 'playlist',
   description: 'Load and play my playlist in your channel!',
   options: [
     {

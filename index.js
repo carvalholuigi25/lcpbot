@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('./server.js');
+require('./apiserver.js');
 
 const fs = require('fs');
 const { Collection, ActivityType } = require('discord.js');

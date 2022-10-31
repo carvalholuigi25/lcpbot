@@ -18,7 +18,7 @@ Name: pause, Description: Pause current song!
 Name: play, Description: Play a song in your channel! 
 Name: playradio, Description: Play a radio in your channel!
 Name: playtop, Description: Play a song before the next in your channel! 
-Name: play_myplaylist, Description: Load and play my playlist in your channel! 
+Name: playlist, Description: Load and play my playlist in your channel! 
 Name: purge, Description: Delete the last messages in all chats. 
 Name: queue, Description: View the queue of current songs! 
 Name: radio, Description: Get radio list 

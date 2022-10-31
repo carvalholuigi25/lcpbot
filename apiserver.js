@@ -79,7 +79,7 @@ server.get("/api/weather", (req, res) => {
   var state = req.query.state ? req.query.state : "";
   var units = req.query.units ? req.query.units : "metric";
   var lang = req.query.lang ? req.query.lang : "pt";
-  var apiurl = ""; var params = "";
+  var apiurl = ""; var params = ""; var saveToFile = false;
 
   state = country.indexOf("us") !== -1 ? `,${state},` : ",";
   params = `?q=${city}${state}${country}&appid=${conf.weatherToken}&units=${units}&lang=${lang}`;
@@ -88,11 +88,13 @@ server.get("/api/weather", (req, res) => {
   funcs.getData(apiurl).then(x => {
     res.jsonp(x);
 
-    if (fs.existsSync(path.join(__dirname + '/data/weather.json'))) {
-      fs.writeFile(path.join(__dirname + '/data/weather.json'), JSON.stringify(x, null, 2), 'utf8', function(err, data) {
-        if (err) throw err;
-        console.log("written contents to file /data/weather.json!");
-      });
+    if(saveToFile) {
+      if (fs.existsSync(path.join(__dirname + '/data/weather.json'))) {
+        fs.writeFile(path.join(__dirname + '/data/weather.json'), JSON.stringify(x, null, 2), 'utf8', function(err, data) {
+          if (err) throw err;
+          console.log("Written contents to file /data/weather.json!");
+        });
+      }
     }
   }).catch(err => console.log(err));
 });
