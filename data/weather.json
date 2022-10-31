@@ -5,41 +5,44 @@
   },
   "weather": [
     {
-      "id": 804,
-      "main": "Clouds",
-      "description": "nublado",
-      "icon": "04d"
+      "id": 500,
+      "main": "Rain",
+      "description": "chuva fraca",
+      "icon": "10d"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 15.76,
-    "feels_like": 15.85,
-    "temp_min": 14.75,
-    "temp_max": 17.84,
-    "pressure": 1017,
-    "humidity": 94,
-    "sea_level": 1017,
-    "grnd_level": 995
+    "temp": 17.64,
+    "feels_like": 17.89,
+    "temp_min": 16.42,
+    "temp_max": 18.56,
+    "pressure": 1015,
+    "humidity": 93,
+    "sea_level": 1015,
+    "grnd_level": 993
   },
   "visibility": 10000,
   "wind": {
-    "speed": 3.05,
-    "deg": 180,
-    "gust": 8.08
+    "speed": 2.83,
+    "deg": 291,
+    "gust": 6.84
+  },
+  "rain": {
+    "1h": 0.4
   },
   "clouds": {
-    "all": 100
+    "all": 99
   },
-  "dt": 1667060133,
+  "dt": 1667216268,
   "sys": {
     "type": 2,
     "id": 2021760,
     "country": "PT",
-    "sunrise": 1667026893,
-    "sunset": 1667064784
+    "sunrise": 1667199838,
+    "sunset": 1667237429
   },
-  "timezone": 3600,
+  "timezone": 0,
   "id": 2742032,
   "name": "Braga",
   "cod": 200

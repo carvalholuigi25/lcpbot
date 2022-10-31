@@ -1,5 +1,4 @@
-// at the top of your file
-const { EmbedBuilder, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 
 function getMyEmbed() {
 	const exampleEmbed = new EmbedBuilder()
@@ -36,33 +35,33 @@ module.exports = {
     },
   ],
   execute(interaction, client) {
-	if(!interaction.member.permissions.has('USE_APPLICATION_COMMANDS')) {
-		return interaction.reply("This channel does not have use application commands permission!");
-	}
-
-	if (!interaction.member.permissions.has('EMBED_LINKS')) {
-		return interaction.reply("This channel does not have embed links permission!");
-	}
-
-	const chname = interaction.options.getString('chname') ? interaction.options.getString('chname') : "others";
-	const channel = client.channels.cache.find(ch => ch.name === chname);
-
-	if(channel == null) {
-		return interaction.reply("The channel does not exist.");
-	}
-
-	client.channels.fetch(channel.id).then(ch => {
-		ch.send({ embeds: [ getMyEmbed() ] });
-		interaction.reply({
-			content: `Tested the embed with success!!`,
-			ephemeral: true,
-		});
-	}).catch(err => {
-		console.log(err);
-		interaction.reply({
-			content: `Error while testing the embed...`,
-			ephemeral: true,
-		});
-	});
+	  if(!interaction.member.permissions.has('USE_APPLICATION_COMMANDS')) {
+  		return interaction.reply("This channel does not have use application commands permission!");
+  	}
+  
+  	if (!interaction.member.permissions.has('EMBED_LINKS')) {
+  		return interaction.reply("This channel does not have embed links permission!");
+  	}
+  
+  	const chname = interaction.options.getString('chname') ? interaction.options.getString('chname') : "others";
+  	const channel = client.channels.cache.find(ch => ch.name === chname);
+  
+  	if(channel == null) {
+  		return interaction.reply("The channel does not exist.");
+  	}
+  
+  	client.channels.fetch(channel.id).then(ch => {
+  		ch.send({ embeds: [ getMyEmbed() ] });
+  		interaction.reply({
+  			content: `Tested the embed with success!!`,
+  			ephemeral: true,
+  		});
+  	}).catch(err => {
+  		console.log(err);
+  		interaction.reply({
+  			content: `Error while testing the embed...`,
+  			ephemeral: true,
+  		});
+  	});
   },
 };

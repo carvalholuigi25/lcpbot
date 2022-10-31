@@ -87,7 +87,7 @@ client.on('messageCreate', async message => {
       .set(client.commands)
       .then(() => {
         var timeTaken = Date.now() - message.createdTimestamp;
-        message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
+        message.reply(`Pong! This message had a latency of ${timeTaken.toFixed(2)}ms.`);
       })
       .catch(err => {
         message.reply('Could not deploy this command! Make sure the bot has the application.commands permission!');
@@ -95,7 +95,7 @@ client.on('messageCreate', async message => {
       });
   }
 
-  if(message.content === `!reload`) {
+  if(message.content === '!reload') {
     await message.guild.commands
       .set(client.commands)
       .then(() => {
