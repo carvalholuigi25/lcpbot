@@ -116,7 +116,7 @@ client.on('interactionCreate', async interaction => {
   const command = client.commands.get(interaction.commandName.toLowerCase());
 
   try {
-    if (['ban', 'userinfo'].includes(interaction.commandName)) {
+    if (['ban', 'userinfo', 'testembed'].includes(interaction.commandName)) {
       command.execute(interaction, client);
     } else {
       command.execute(interaction, player);
