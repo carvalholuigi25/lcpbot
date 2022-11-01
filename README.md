@@ -7,6 +7,7 @@ prefix: "/" or "!"
 Name: deploy, Description: This command executes and updates the commands list and bot status!
 Name: ping, Description: This command shows the status or latency of bot!
 Name: reload, Description: This command reloads the entire bot and updates the commands list!
+Name: hello, Description: This command shows the hello message!
 Name: ban, Description: Ban a player 
 Name: help, Description: List all available commands. 
 Name: loop, Description: Sets loop mode 

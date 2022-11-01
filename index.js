@@ -18,8 +18,6 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
-console.log(client.commands);
-
 const player = new Player(client);
 
 player.on('error', (queue, error) => {
@@ -50,12 +48,12 @@ player.on('queueEnd', queue => {
   queue.metadata.send('✅ | Queue finished!');
 });
 
-client.once('ready', async () => {
-  console.log('Ready!');
-});
-
 client.on('ready', function() {
   client.user.setActivity(isLocal == "true" ? 'LCPBotLocal' : 'LCPBot', { type: ActivityType.Listening });
+});
+
+client.once('ready', async () => {
+  console.log('Ready!');
 });
 
 client.once('reconnecting', () => {
@@ -69,6 +67,18 @@ client.once('disconnect', () => {
 client.on('messageCreate', async message => {
   if (message.author.bot || !message.guild) return;
   if (!client.application?.owner) await client.application?.fetch();
+
+  if (message.content === '!hello') {
+    await message.guild.commands
+      .set(client.commands)
+      .then(() => {
+        message.reply(`Hello ${message.author.username}!`);
+      })
+      .catch(err => {
+        message.reply('Could not deploy commands! Make sure the bot has the application.commands permission!');
+        console.error(err);
+      });
+  }
 
   if (message.content === '!deploy') {
     await message.guild.commands
@@ -87,7 +97,7 @@ client.on('messageCreate', async message => {
       .set(client.commands)
       .then(() => {
         var timeTaken = Date.now() - message.createdTimestamp;
-        message.reply(`Pong! This message had a latency of ${timeTaken.toFixed(2)}ms.`);
+        message.reply(`Pong! This message had a latency of ${timeTaken.toFixed(0)}ms.`);
       })
       .catch(err => {
         message.reply('Could not deploy this command! Make sure the bot has the application.commands permission!');
@@ -129,5 +139,6 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
-console.log("Is Local Server: " + isLocal);
+console.log("Commands: \r\n" + JSON.stringify(client.commands, null, 4));
+console.log("\nIs Local Server: " + isLocal);
 client.login(isLocal == "true" ? config.tokenLocal : config.token);
