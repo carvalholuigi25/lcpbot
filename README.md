@@ -1,4 +1,6 @@
-# lcpbot
+# LCPBot
+![LCPBot](https://raw.githubusercontent.com/carvalholuigi25/lcpbot/master/lcpbot.svg "LCP Bot Logo")
+
 LCP Bot is a bot for discord, which consists to interact bot within your discord server and provides the commands giving ability to all users, moderators or administrators for execute them, modify them and/or use them on their servers with oauth2 and bearer token access.
 
 # List of Commands:
